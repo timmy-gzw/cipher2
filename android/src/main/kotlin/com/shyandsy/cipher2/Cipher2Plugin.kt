@@ -1,12 +1,12 @@
 package com.shyandsy.cipher2
 
+import android.util.Base64
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
 import io.flutter.plugin.common.PluginRegistry.Registrar
 import java.security.SecureRandom
-import java.util.*
 import javax.crypto.Cipher
 import javax.crypto.spec.GCMParameterSpec
 import javax.crypto.spec.IvParameterSpec
@@ -91,7 +91,7 @@ class Cipher2Plugin : MethodCallHandler {
 
         val ciphertext = cipher.doFinal(dataArray)
 
-        val text = android.util.Base64.encodeToString(ciphertext, android.util.Base64.DEFAULT)
+        val text = Base64.encodeToString(ciphertext, Base64.DEFAULT)
 
         // val text = Base64.getEncoder().encodeToString(ciphertext)
 
@@ -126,11 +126,11 @@ class Cipher2Plugin : MethodCallHandler {
             return
         }
 
-        var dataArray: ByteArray; // = ByteArray(0)
+        var dataArray: ByteArray // = ByteArray(0)
 
         try {
             // dataArray = Base64.getDecoder().decode(data.toByteArray(CHARSET))
-            dataArray = android.util.Base64.decode(data.toByteArray(CHARSET), android.util.Base64.DEFAULT)
+            dataArray = Base64.decode(data.toByteArray(CHARSET), Base64.DEFAULT)
             if (dataArray.size % 16 != 0) {
                 throw IllegalArgumentException("")
             }
@@ -168,7 +168,7 @@ class Cipher2Plugin : MethodCallHandler {
         val nance = ByteArray(NONCE_LENGTH_IN_BYTES)
         secureRandom.nextBytes(nance)
         //    val text = Base64.getEncoder().encodeToString(nance)
-        val text = android.util.Base64.encodeToString(nance, android.util.Base64.DEFAULT)
+        val text = Base64.encodeToString(nance, Base64.DEFAULT)
 
         result.success(text)
         return
@@ -193,10 +193,10 @@ class Cipher2Plugin : MethodCallHandler {
         val keyArray = key.toByteArray(CHARSET)
 
         // decode nonce from base64 string
-        var nonceArray: ByteArray;
+        var nonceArray: ByteArray
         try {
             // nonceArray = Base64.getDecoder().decode(nonce.toByteArray(CHARSET))
-            nonceArray = android.util.Base64.decode(nonce.toByteArray(CHARSET), android.util.Base64.DEFAULT)
+            nonceArray = Base64.decode(nonce.toByteArray(CHARSET), Base64.DEFAULT)
         } catch (e: IllegalArgumentException) {
             result.error(
                     "ERROR_INVALID_KEY_OR_IV_LENGTH",
@@ -224,7 +224,7 @@ class Cipher2Plugin : MethodCallHandler {
         val ciphertext = cipher.doFinal(dataArray)
 
         // val text = Base64.getEncoder().encodeToString(ciphertext)
-        val text = android.util.Base64.encodeToString(ciphertext, android.util.Base64.DEFAULT)
+        val text = Base64.encodeToString(ciphertext, Base64.DEFAULT)
         result.success(text)
 
         return
@@ -253,7 +253,7 @@ class Cipher2Plugin : MethodCallHandler {
         // deocde the base64 string to get nonce byte array
         try {
             // nonceArray = Base64.getDecoder().decode(nonce.toByteArray(CHARSET))
-            nonceArray = android.util.Base64.decode(data.toByteArray(CHARSET), android.util.Base64.DEFAULT)
+            nonceArray = Base64.decode(data.toByteArray(CHARSET), Base64.DEFAULT)
         } catch (e: IllegalArgumentException) {
             result.error(
                     "ERROR_INVALID_KEY_OR_IV_LENGTH",
@@ -266,7 +266,7 @@ class Cipher2Plugin : MethodCallHandler {
         // decode the base64 string to get the data byte array
         try {
             // dataArray = Base64.getDecoder().decode(data.toByteArray(CHARSET))
-            dataArray = android.util.Base64.decode(data.toByteArray(CHARSET), android.util.Base64.DEFAULT)
+            dataArray = Base64.decode(data.toByteArray(CHARSET), Base64.DEFAULT)
         } catch (e: IllegalArgumentException) {
             result.error(
                     "ERROR_INVALID_ENCRYPTED_DATA",
